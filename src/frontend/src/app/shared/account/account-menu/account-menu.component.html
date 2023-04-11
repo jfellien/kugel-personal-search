@@ -1,0 +1,16 @@
+<button mat-button (click)="login()" *ngIf="!isLoggedIn">Anmelden</button>
+<button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isLoggedIn">
+  <mat-icon>account_circle</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <header>
+    <h2>{{ displayname }}</h2>
+    <p>{{ username }}</p>
+  </header>
+  <button mat-menu-item>
+    <span>Passwort ändern</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <span>Abmelden</span>
+  </button>
+</mat-menu>

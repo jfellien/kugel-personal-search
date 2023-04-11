@@ -1,0 +1,11 @@
+.error {
+  min-height: 56px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  color: white;
+  background: var(--color-accent-red);
+  mat-icon {
+    margin-right: 8px;
+  }
+}

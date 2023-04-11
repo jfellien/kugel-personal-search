@@ -1,0 +1,19 @@
+@import "@angular/material/theming";
+@import "palette.scss";
+@include mat-core();
+
+$primary: mat-palette($md-primary);
+$accent-blue: mat-palette($md-accentblue);
+$accent-red: mat-palette($md-accentred);
+
+$theme: mat-light-theme($primary, $accent-red);
+
+@include angular-material-theme($theme);
+
+:root {
+    --color-primary: #{mat-color($primary)};
+    --color-primary-light: #{mat-color($primary, 100)};
+    --color-accent-blue: #{mat-color($accent-blue)};
+    --color-accent-blue-light: #{mat-color($accent-blue, 200)};
+    --color-accent-red: #{mat-color($accent-red)};
+  }

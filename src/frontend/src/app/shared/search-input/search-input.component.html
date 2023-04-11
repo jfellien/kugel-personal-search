@@ -1,0 +1,9 @@
+<div class="searchbox">
+  <input
+    type="search"
+    [(ngModel)]="query"
+    (keyup)="queryChanged($event)"
+    placeholder="Suche nach Vor- oder Nachname"
+  />
+  <mat-icon matSuffix (click)="search()">search</mat-icon>
+</div>

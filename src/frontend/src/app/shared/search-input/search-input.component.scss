@@ -1,0 +1,20 @@
+.searchbox {
+    min-width: 450px;
+    background: white;
+    border-radius: 22px;
+    border: 1px solid silver;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    input {
+        flex: 1;
+        border: 0;
+        outline: 0;
+        padding: 12px 0;
+        font-size: 16px;
+    }
+    mat-icon {
+        cursor: pointer;
+        color: gray;
+    }
+}

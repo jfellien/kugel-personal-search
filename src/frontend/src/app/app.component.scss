@@ -1,0 +1,32 @@
+.page {
+    min-height: calc(100% - 56px);
+}
+footer {
+    min-height: 56px;
+    display: flex;
+    color: #999;
+    align-items: center;
+    padding: 0 24px;
+    nav {
+        flex: 1;
+        ul {
+            margin: 0 auto;
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            padding: 0;
+            li {
+                margin: 0 0 0 8px;
+                text-decoration: underline;
+                padding: 0 8px 0 0;
+                border-right: 1px solid #999;
+                a {
+                    color: #999;
+                }
+            }
+            li:last-of-type {
+                border-right: 0;
+            }
+        }
+    }
+}

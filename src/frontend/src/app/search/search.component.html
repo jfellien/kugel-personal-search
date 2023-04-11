@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <app-logo></app-logo>
+  <app-search-input [query]="searchService.query" (submitSearch)="search($event)"></app-search-input>
+  <app-account-menu></app-account-menu>
+</mat-toolbar>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<div class="result-wrapper">
+  <div *ngIf="!isLoading && results">
+    <h1 *ngIf="results.length === 0">{{ results.length }} Ergebnisse gefunden</h1>
+    <h1 *ngIf="results.length === 1">{{ results.length }} Ergebnis für "{{ searchService.query }}"</h1>
+    <h1 *ngIf="results.length > 1">{{ results.length }} Ergebnisse für "{{ searchService.query }}"</h1>
+  </div>
+
+  <div class="results" *ngIf="!isLoading && results">
+    <ul>
+      <li *ngFor="let r of results" [routerLink]="['..','person', r.id ]">
+        <p class="caption">{{ r.personalId }}</p>
+        <p class="main">{{ r.lastName }} {{ r.firstName }}</p>
+        <mat-icon color="accent">chevron_right</mat-icon>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<app-error [message]="errorMessage" *ngIf="errorMessage && !isLoading"></app-error>

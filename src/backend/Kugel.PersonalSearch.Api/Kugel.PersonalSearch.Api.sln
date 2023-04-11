@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.PersonalSearch.Api", "Kugel.PersonalSearch.Api\Kugel.PersonalSearch.Api.csproj", "{E86D32EB-F137-41C2-9AC0-B1BEA22D644F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.PersonalSearch.Database", "..\Kugel.PersonalSearch.Database\Kugel.PersonalSearch.Database.csproj", "{879A6BBF-BAC4-4B18-A6C1-1EACD3B533ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.PersonalSearch.Database.SqlServer", "..\Kugel.PersonalSearch.Database.SqlServer\Kugel.PersonalSearch.Database.SqlServer.csproj", "{0C19B929-BDE4-4AEC-BB2B-A915E0F6D033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.PersonalSearch.Database.SqlServer.Migrations", "..\Kugel.PersonalSearch.Database.SqlServer.Migrations\Kugel.PersonalSearch.Database.SqlServer.Migrations.csproj", "{42B09891-867B-4CC8-8212-1FD5E536B91A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E86D32EB-F137-41C2-9AC0-B1BEA22D644F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E86D32EB-F137-41C2-9AC0-B1BEA22D644F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E86D32EB-F137-41C2-9AC0-B1BEA22D644F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E86D32EB-F137-41C2-9AC0-B1BEA22D644F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{879A6BBF-BAC4-4B18-A6C1-1EACD3B533ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{879A6BBF-BAC4-4B18-A6C1-1EACD3B533ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{879A6BBF-BAC4-4B18-A6C1-1EACD3B533ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{879A6BBF-BAC4-4B18-A6C1-1EACD3B533ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C19B929-BDE4-4AEC-BB2B-A915E0F6D033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C19B929-BDE4-4AEC-BB2B-A915E0F6D033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C19B929-BDE4-4AEC-BB2B-A915E0F6D033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C19B929-BDE4-4AEC-BB2B-A915E0F6D033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42B09891-867B-4CC8-8212-1FD5E536B91A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42B09891-867B-4CC8-8212-1FD5E536B91A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42B09891-867B-4CC8-8212-1FD5E536B91A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42B09891-867B-4CC8-8212-1FD5E536B91A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
