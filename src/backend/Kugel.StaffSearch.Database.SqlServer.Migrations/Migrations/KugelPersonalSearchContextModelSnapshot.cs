@@ -42,7 +42,7 @@ namespace Kugel.StaffSearch.Database.SqlServer.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StaffMember");
+                    b.ToTable("StaffMember", (string)null);
                 });
 #pragma warning restore 612, 618
         }
