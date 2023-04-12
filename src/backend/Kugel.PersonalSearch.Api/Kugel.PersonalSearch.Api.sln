@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.PersonalSearch.Api", "Kugel.PersonalSearch.Api\Kugel.PersonalSearch.Api.csproj", "{E86D32EB-F137-41C2-9AC0-B1BEA22D644F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.StaffSearch.Api", "Kugel.StaffSearch.Api\Kugel.StaffSearch.Api.csproj", "{E86D32EB-F137-41C2-9AC0-B1BEA22D644F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.PersonalSearch.Database", "..\Kugel.PersonalSearch.Database\Kugel.PersonalSearch.Database.csproj", "{879A6BBF-BAC4-4B18-A6C1-1EACD3B533ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.StaffSearch.Database", "..\Kugel.StaffSearch.Database\Kugel.StaffSearch.Database.csproj", "{879A6BBF-BAC4-4B18-A6C1-1EACD3B533ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.PersonalSearch.Database.SqlServer", "..\Kugel.PersonalSearch.Database.SqlServer\Kugel.PersonalSearch.Database.SqlServer.csproj", "{0C19B929-BDE4-4AEC-BB2B-A915E0F6D033}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.StaffSearch.Database.SqlServer", "..\Kugel.StaffSearch.Database.SqlServer\Kugel.StaffSearch.Database.SqlServer.csproj", "{0C19B929-BDE4-4AEC-BB2B-A915E0F6D033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.PersonalSearch.Database.SqlServer.Migrations", "..\Kugel.PersonalSearch.Database.SqlServer.Migrations\Kugel.PersonalSearch.Database.SqlServer.Migrations.csproj", "{42B09891-867B-4CC8-8212-1FD5E536B91A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kugel.StaffSearch.Database.SqlServer.Migrations", "..\Kugel.StaffSearch.Database.SqlServer.Migrations\Kugel.StaffSearch.Database.SqlServer.Migrations.csproj", "{42B09891-867B-4CC8-8212-1FD5E536B91A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
