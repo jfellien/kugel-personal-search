@@ -10,8 +10,8 @@ public class PersonRepository : IPersonRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Person>> Search(string queryString)
+    public async Task<IEnumerable<Person>?> Search(string queryString)
     {
-        throw new NotImplementedException();
+        return null;
     }
 }

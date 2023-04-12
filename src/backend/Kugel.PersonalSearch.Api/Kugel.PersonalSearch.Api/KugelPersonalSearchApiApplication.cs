@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging.ApplicationInsights;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Kugel.PersonalSearch.Api.FluentWebAppBuilder;
+using Kugel.PersonalSearch.Api.Services;
 using Kugel.PersonalSearch.Database.Repositories;
 using Kugel.PersonalSearch.Database.SqlServer;
 using Kugel.PersonalSearch.Database.SqlServer.Repositories;
@@ -107,6 +108,7 @@ internal class KugelPersonalSearchApiApplication : IConfigureWebApplication, IWe
     public IConfigureWebApplication SetApplicationServices()
     {
         _internalWebApplicationBuilder.Services.AddScoped<IPersonRepository, PersonRepository>();
+        _internalWebApplicationBuilder.Services.AddScoped<IPersonService, PersonService>();
 
         return this;
     }
@@ -117,7 +119,7 @@ internal class KugelPersonalSearchApiApplication : IConfigureWebApplication, IWe
         {
             string? connectionString = AppIsInDeployment()
                 ? "no connection needed"
-                : _internalWebApplicationBuilder.Configuration["SqlConnection"];
+                : _internalWebApplicationBuilder.Configuration["SqlServerConnection"];
             
             options.UseSqlServer(
                 connectionString,

@@ -11,6 +11,9 @@
     <h1 *ngIf="results.length === 1">{{ results.length }} Ergebnis für "{{ searchService.query }}"</h1>
     <h1 *ngIf="results.length > 1">{{ results.length }} Ergebnisse für "{{ searchService.query }}"</h1>
   </div>
+  <div *ngIf="!isLoading && (results === undefined || results === null)">
+    <h1>Keine Ergebnisse gefunden</h1>
+  </div>
 
   <div class="results" *ngIf="!isLoading && results">
     <ul>

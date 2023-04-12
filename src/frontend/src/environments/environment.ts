@@ -8,11 +8,9 @@ export const environment = {
   authority: 'https://devcrowdb2c.b2clogin.com/devcrowdb2c.onmicrosoft.com/B2C_1_signin',
   authorityDomain: 'devCrowdB2C.b2clogin.com',
   redirectUri: 'http://localhost:4200',
-  endpoint: 'https://kugel-personal-search.devcrowd.de/api',
+  endpoint: 'http://localhost:5229',
   pathSearch: '/search',
-  pathProducts: '/products',
-  pathProduct: '/product',
-  pathSoftware: '/software',
+  pathPerson: '/person',
   endpointScopes: [ 'https://devcrowdb2c.onmicrosoft.com/67ed75a2-3ff2-46da-8dae-ebe4f34f8901/all' ]
 };
 

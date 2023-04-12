@@ -51,6 +51,12 @@ h1 {
     grid-row-end: 3;
     margin: 0 24px;
     max-width: 640px;
+    .no-results {
+        display: table;
+        margin: 0 auto;
+        color: darkgray;
+        font-size:larger;
+    }
     ul {
         padding: 0;
         display: flex;

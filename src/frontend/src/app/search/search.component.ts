@@ -33,7 +33,9 @@ export class SearchComponent implements OnInit {
     this.searchService.search(query).subscribe(result => {
       this.results = result;
       this.isLoading = false;
-    }, () => {
+    }, (error) => {
+      console.error(error);
+
       this.isLoading = false;
       this.errorMessage = 'Suche fehlgeschlagen. Keine Verbindug zum Server. Bitte versuchen Sie es später wieder.';
     });

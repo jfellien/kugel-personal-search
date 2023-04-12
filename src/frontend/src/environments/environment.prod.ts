@@ -6,8 +6,6 @@ export const environment = {
   redirectUri: 'https://kugel-personal-search.devcrowd.de',
   endpoint: 'https://kugel-personal-search.devcrowd.de/api',
   pathSearch: '/search',
-  pathProducts: '/products',
-  pathProduct: '/product',
-  pathSoftware: '/software',
+  pathPerson: '/person',
   endpointScopes: [ 'https://devCrowdB2C.onmicrosoft.com/67ed75a2-3ff2-46da-8dae-ebe4f34f8901/all' ]
 };

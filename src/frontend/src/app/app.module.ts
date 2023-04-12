@@ -15,7 +15,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogoComponent } from './shared/logo/logo.component';
 import { SearchInputComponent } from './shared/search-input/search-input.component';
 import { AccountMenuComponent } from './shared/account/account-menu/account-menu.component';
-import { SelectorComponent } from './shared/selector/selector.component';
 import { ErrorComponent } from './shared/error/error.component';
 import { BytePipe } from './shared/byte.pipe';
 import { LanguagePipe } from './shared/language.pipe';
@@ -29,7 +28,6 @@ import { PersonComponent } from './person/person.component';
     LogoComponent,
     SearchInputComponent,
     AccountMenuComponent,
-    SelectorComponent,
     ErrorComponent,
     BytePipe,
     LanguagePipe,
@@ -66,8 +64,7 @@ import { PersonComponent } from './person/person.component';
         interactionType: InteractionType.Redirect,
         protectedResourceMap: new Map([
           [ `${environment.endpoint}${environment.pathSearch}`, environment.endpointScopes ],
-          [ `${environment.endpoint}${environment.pathProducts}`, environment.endpointScopes ],
-          [ `${environment.endpoint}${environment.pathSoftware}`, environment.endpointScopes ],
+          [ `${environment.endpoint}${environment.pathPerson}`, environment.endpointScopes ],
         ])
       }
     )

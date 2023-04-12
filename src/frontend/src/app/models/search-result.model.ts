@@ -1,5 +1,8 @@
 import { Person } from './person.model';
 
 export interface SearchResult {
-    person: Person[]
+    id: string
+    personalId: string
+    firstName: string
+    lastName: string
 }
