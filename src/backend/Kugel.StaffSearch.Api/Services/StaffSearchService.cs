@@ -3,19 +3,18 @@ using Kugel.StaffSearch.Database.Repositories;
 
 namespace Kugel.StaffSearch.Api.Services;
 
-internal class PersonService : IPersonService
+internal class StaffSearchService : IStaffSearchService
 {
     private readonly IStaffMemberRepository _staffMemberRepository;
 
-    public PersonService(IStaffMemberRepository staffMemberRepository)
+    public StaffSearchService(IStaffMemberRepository staffMemberRepository)
     {
         _staffMemberRepository = staffMemberRepository;
     }
     public async Task<StaffMember[]?> Search(string query, int skip, int top)
     {
-        IEnumerable<StaffMember>? searchResult = await _staffMemberRepository.Search(query);
-
-        if (searchResult is null) return null;
-        return searchResult.Skip(skip).Take(top).ToArray();
+        return query == "*" 
+            ? (await _staffMemberRepository.All())?.ToArray() 
+            : (await _staffMemberRepository.Search(query, skip, top))?.ToArray();
     }
 }

@@ -11,11 +11,11 @@ namespace Kugel.StaffSearch.Api.Controller;
 public class SearchController : ControllerBase
 {
     private readonly ILogger<SearchController> _logger;
-    private readonly IPersonService _staffSearchService;
+    private readonly IStaffSearchService _staffSearchService;
     
     public SearchController(
         ILogger<SearchController> logger,
-        IPersonService staffSearchService)
+        IStaffSearchService staffSearchService)
     {
         _logger = logger;
         _staffSearchService = staffSearchService;

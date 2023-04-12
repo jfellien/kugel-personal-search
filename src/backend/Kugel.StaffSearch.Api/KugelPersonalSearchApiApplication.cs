@@ -105,14 +105,14 @@ internal class KugelPersonalSearchApiApplication : IConfigureWebApplication, IWe
     public IConfigureWebApplication SetApplicationServices()
     {
         _internalWebApplicationBuilder.Services.AddScoped<IStaffMemberRepository, StaffMemberRepository>();
-        _internalWebApplicationBuilder.Services.AddScoped<IPersonService, PersonService>();
+        _internalWebApplicationBuilder.Services.AddScoped<IStaffSearchService, StaffSearchService>();
 
         return this;
     }
 
     public IConfigureWebApplication SetDatabase()
     {
-        _internalWebApplicationBuilder.Services.AddDbContext<KugelPersonalSearchContext>(options =>
+        _internalWebApplicationBuilder.Services.AddDbContext<KugelStaffSearchContext>(options =>
         {
             string? connectionString = AppIsInDeployment()
                 ? "no connection needed"
@@ -268,8 +268,8 @@ internal class KugelPersonalSearchApiApplication : IConfigureWebApplication, IWe
 
     public IWebApplicationRuntime EnableDatabase()
     {
-        using (KugelPersonalSearchContext? dbContext = _internalWebApplication?.Services.CreateScope().ServiceProvider
-                   .GetRequiredService<KugelPersonalSearchContext>())
+        using (KugelStaffSearchContext? dbContext = _internalWebApplication?.Services.CreateScope().ServiceProvider
+                   .GetRequiredService<KugelStaffSearchContext>())
         {
             try
             {
