@@ -17,7 +17,7 @@
 
   <div class="results" *ngIf="!isLoading && results">
     <ul>
-      <li *ngFor="let r of results" [routerLink]="['..','person', r.id ]">
+      <li *ngFor="let r of results" [routerLink]="['..','staff-member', r.id ]">
         <p class="caption">{{ r.personalId }}</p>
         <p class="main">{{ r.lastName }} {{ r.firstName }}</p>
         <mat-icon color="accent">chevron_right</mat-icon>

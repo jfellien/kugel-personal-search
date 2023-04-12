@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
-import { PersonComponent } from './person/person.component';
+import { StaffMemberComponent } from './staff-member/staff-member.component';
 import { SearchComponent } from './search/search.component';
 import { StartComponent } from './start/start.component';
 
@@ -18,8 +18,8 @@ const routes: Routes = [
     canActivate: [ MsalGuard ]
   },
   {
-    path: 'person/:personId',
-    component: PersonComponent,
+    path: 'staff-member/:id',
+    component: StaffMemberComponent,
     canActivate: [ MsalGuard ]
   }
 ];

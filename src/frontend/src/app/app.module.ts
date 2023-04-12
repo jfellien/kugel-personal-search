@@ -18,7 +18,7 @@ import { AccountMenuComponent } from './shared/account/account-menu/account-menu
 import { ErrorComponent } from './shared/error/error.component';
 import { BytePipe } from './shared/byte.pipe';
 import { LanguagePipe } from './shared/language.pipe';
-import { PersonComponent } from './person/person.component';
+import { StaffMemberComponent } from './staff-member/staff-member.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import { PersonComponent } from './person/person.component';
     ErrorComponent,
     BytePipe,
     LanguagePipe,
-    PersonComponent
+    StaffMemberComponent
   ],
   imports: [
     BrowserModule,
