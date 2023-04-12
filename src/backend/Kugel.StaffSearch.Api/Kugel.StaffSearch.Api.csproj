@@ -8,12 +8,12 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\net7.0\Kugel.PersonalSearch.Api.xml</DocumentationFile>
+      <DocumentationFile>bin\Debug\net7.0\Kugel.StaffSearch.Api.xml</DocumentationFile>
       <NoWarn>1701;1702;1591;IL2121</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <DocumentationFile>bin\Release\net7.0\Kugel.PersonalSearch.Api.xml</DocumentationFile>
+      <DocumentationFile>bin\Release\net7.0\Kugel.StaffSearch.Api.xml</DocumentationFile>
       <NoWarn>1701;1702;1591;IL2121</NoWarn>
     </PropertyGroup>
 
