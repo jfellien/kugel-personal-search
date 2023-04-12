@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Kugel.StaffSearch.Database.SqlServer\Kugel.StaffSearch.Database.SqlServer.csproj" />
+      <ProjectReference Include="..\Kugel.StaffSearch.Database.SqlServer\Kugel.StaffSearch.Database.SqlServer.csproj" />
     </ItemGroup>
 
 </Project>
