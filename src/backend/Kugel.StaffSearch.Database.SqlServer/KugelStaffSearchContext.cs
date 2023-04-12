@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kugel.StaffSearch.Database.SqlServer;
 
-public class KugelPersonalSearchContext : DbContext
+public class KugelStaffSearchContext : DbContext
 {
-    public KugelPersonalSearchContext(DbContextOptions<KugelPersonalSearchContext> options) : base(options) { }
+    public KugelStaffSearchContext(DbContextOptions<KugelStaffSearchContext> options) : base(options) { }
     
     public DbSet<StaffMember>? StaffMember { get; set; }
 }

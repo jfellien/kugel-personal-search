@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kugel.StaffSearch.Database.SqlServer.Migrations.Migrations
 {
-    [DbContext(typeof(KugelPersonalSearchContext))]
+    [DbContext(typeof(KugelStaffSearchContext))]
     partial class KugelPersonalSearchContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kugel.StaffSearch.Database.SqlServer.Migrations.Migrations
 {
-    [DbContext(typeof(KugelPersonalSearchContext))]
+    [DbContext(typeof(KugelStaffSearchContext))]
     [Migration("20230412162516_Initial")]
     partial class Initial
     {

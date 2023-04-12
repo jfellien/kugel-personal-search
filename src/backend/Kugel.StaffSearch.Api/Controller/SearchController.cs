@@ -11,14 +11,14 @@ namespace Kugel.StaffSearch.Api.Controller;
 public class SearchController : ControllerBase
 {
     private readonly ILogger<SearchController> _logger;
-    private readonly IPersonService _personService;
+    private readonly IPersonService _staffSearchService;
     
     public SearchController(
         ILogger<SearchController> logger,
-        IPersonService personService)
+        IPersonService staffSearchService)
     {
         _logger = logger;
-        _personService = personService;
+        _staffSearchService = staffSearchService;
 
     }
 
@@ -48,8 +48,8 @@ public class SearchController : ControllerBase
             return BadRequest();
         }
 
-        StaffMember[]? people = await _personService.Search(query, skip, top);
+        StaffMember[]? staffMembers = await _staffSearchService.Search(query, skip, top);
         
-        return Ok(people);
+        return Ok(staffMembers);
     }
 }
