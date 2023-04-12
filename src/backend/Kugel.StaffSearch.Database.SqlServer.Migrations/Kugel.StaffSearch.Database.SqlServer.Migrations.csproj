@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Kugel.StaffSearch.Database.SqlServer\Kugel.StaffSearch.Database.SqlServer.csproj" />
+    </ItemGroup>
+
 </Project>

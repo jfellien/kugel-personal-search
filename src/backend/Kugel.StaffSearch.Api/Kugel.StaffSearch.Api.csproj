@@ -31,6 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Kugel.StaffSearch.Database.SqlServer.Migrations\Kugel.StaffSearch.Database.SqlServer.Migrations.csproj" />
       <ProjectReference Include="..\Kugel.StaffSearch.Database.SqlServer\Kugel.StaffSearch.Database.SqlServer.csproj" />
     </ItemGroup>
 

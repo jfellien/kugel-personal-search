@@ -12,9 +12,6 @@ using Kugel.StaffSearch.Database.SqlServer.Repositories;
 using Kugel.StaffSearch.Api.FluentWebAppBuilder;
 using Kugel.StaffSearch.Api.Services;
 using Kugel.StaffSearch.Database.Repositories;
-using Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.QuickPulse;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Extensions.Logging.ApplicationInsights;
 
 namespace Kugel.StaffSearch.Api;
 
