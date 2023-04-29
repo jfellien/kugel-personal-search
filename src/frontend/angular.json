@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "kugel-personal-search": {
+    "kugel-staff-search": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/kugel-personal-search",
+            "outputPath": "dist/kugel-staff-search",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -130,10 +130,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "kugel-personal-search:build:production"
+              "browserTarget": "kugel-staff-search:build:production"
             },
             "development": {
-              "browserTarget": "kugel-personal-search:build:development"
+              "browserTarget": "kugel-staff-search:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -141,7 +141,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "kugel-personal-search:build"
+            "browserTarget": "kugel-staff-search:build"
           }
         },
         "test": {
