@@ -151,7 +151,7 @@ stages:
             installationPath: $(Agent.ToolsDirectory)/dotnet
 
         # Nuget Restore
-        - script: dotnet restore $(staffSearchSolutionPath) --configfile src/NuGet.config
+        - script: dotnet restore $(staffSearchSolutionPath) --configfile src/backkend/NuGet.config
           displayName: .Net Package Restore
       
         # Restore dotNet Tools
@@ -313,7 +313,7 @@ stages:
 
     variables:
       - group: staff-search-dev-variables
-      
+
       - name: resourceGroupName
       - name: apiWebAppName
       - name: apiAppInsightsName
