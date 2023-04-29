@@ -1,0 +1,172 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "plugins": [
+        "@typescript-eslint"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json",
+          "e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "indent": [
+          "error",
+          2,
+          {
+            "FunctionDeclaration": {
+              "parameters": "first"
+            },
+            "SwitchCase": 1
+          }
+        ],
+        "curly": "error",
+        "eol-last": [
+          "error",
+          "always"
+        ],
+        "no-restricted-imports": [
+          "error",
+          "rxjs/Rx"
+        ],
+        "object-curly-spacing": [
+          "error",
+          "always"
+        ],
+        "max-len": [
+          "error",
+          {
+            "code": 140
+          }
+        ],
+        "@typescript-eslint/member-ordering": [
+          2,
+          {
+            "default": [
+              "static-field",
+              "instance-field",
+              "static-method",
+              "instance-method"
+            ]
+          }
+        ],
+        "@typescript-eslint/no-inferrable-types": [
+          2,
+          {
+            "ignoreParameters": true,
+            "ignoreProperties": true
+          }
+        ],
+        "@typescript-eslint/no-non-null-assertion": 2,
+        "@typescript-eslint/no-var-requires": 2,
+        "@typescript-eslint/type-annotation-spacing": [
+          2,
+          {
+            "before": false,
+            "after": true,
+            "overrides": {
+              "arrow": {
+                "before": true,
+                "after": true
+              }
+            }
+          }
+        ],
+        "no-console": [
+          "error",
+          {
+            "allow": [
+              "warn",
+              "error",
+              "info"
+            ]
+          }
+        ],
+        "no-fallthrough": "error",
+        "quote-props": [
+          "error",
+          "as-needed",
+          {
+            "keywords": true
+          }
+        ],
+        "quotes": [
+          "error",
+          "single"
+        ],
+        "semi": [
+          "error",
+          "always"
+        ],
+        "space-before-function-paren": [
+          "error",
+          {
+            "anonymous": "never",
+            "asyncArrow": "always",
+            "named": "never"
+          }
+        ],
+        "camelcase": "off",
+        "no-empty-function": [
+          "error",
+          {
+            "allow": [
+              "constructors"
+            ]
+          }
+        ],
+        "no-irregular-whitespace": "error",
+        "@angular-eslint/component-class-suffix": "error",
+        "@angular-eslint/contextual-lifecycle": "error",
+        "@angular-eslint/directive-class-suffix": "error",
+        "@angular-eslint/no-conflicting-lifecycle": "error",
+        "@angular-eslint/no-host-metadata-property": "error",
+        "@angular-eslint/no-input-rename": "error",
+        "@angular-eslint/no-inputs-metadata-property": "error",
+        "@angular-eslint/no-output-native": "error",
+        "@angular-eslint/no-output-on-prefix": "error",
+        "@angular-eslint/no-output-rename": "error",
+        "@angular-eslint/no-outputs-metadata-property": "error",
+        "@angular-eslint/use-lifecycle-interface": "error",
+        "@angular-eslint/use-pipe-transform-interface": "error"
+      }
+    },
+    {
+      "files": [
+        "*.component.html"
+      ],
+      "parser": "@angular-eslint/template-parser",
+      "plugins": [
+        "@angular-eslint/template"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {
+        "@angular-eslint/template/banana-in-box": "error",
+        "@angular-eslint/template/no-negated-async": "error"
+      }
+    },
+    {
+      "files": [
+        "index.html"
+      ],
+      "plugins": [
+        "eslint-plugin-html"
+      ]
+    }
+  ]
+}
