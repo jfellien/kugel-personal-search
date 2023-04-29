@@ -26,7 +26,6 @@ export class StaffMemberComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.params.id;
-    this.searchService.query = id;
     this.loadStaffMember(id);
   }
 
