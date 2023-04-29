@@ -12,9 +12,11 @@ public class StaffMemberRepository : IStaffMemberRepository
     {
         _dbContext = dbContext;
     }
-    public Task<StaffMember> Get(Guid id)
+    public async Task<StaffMember?> Get(Guid id)
     {
-        throw new NotImplementedException();
+        if (_dbContext.StaffMember == null) return null;
+        
+        return await _dbContext.StaffMember.SingleOrDefaultAsync(member => member.Id == id);
     }
 
     public async Task<IEnumerable<StaffMember>?> Search(string queryString, int skip, int top)
