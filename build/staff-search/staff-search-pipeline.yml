@@ -151,7 +151,7 @@ stages:
             installationPath: $(Agent.ToolsDirectory)/dotnet
 
         # Nuget Restore
-        - script: dotnet restore $(staffSearchSolutionPath) --configfile src/backkend/NuGet.config
+        - script: dotnet restore $(staffSearchSolutionPath) --configfile src/backend/NuGet.config
           displayName: .Net Package Restore
       
         # Restore dotNet Tools
