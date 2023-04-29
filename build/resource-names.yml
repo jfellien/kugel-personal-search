@@ -1,0 +1,43 @@
+# This template creates all resource names which will use in all pipelines.
+# any resource name is stores in a variable
+steps:
+
+- task: PowerShell@2
+  displayName: 'Set Resource Names'
+  retryCountOnTaskFailure: 1
+  inputs:
+    targetType: inline
+    script: |
+      ####### Kugel Staff Search
+      # Resource Group
+      $resourceGroupName = "rg-$(productName)-$(environment)"
+      echo "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
+      
+      # Key Vault
+      $keyVaultName = "kv-$(productName)-$(environment)"
+      echo "##vso[task.setvariable variable=keyVaultName]$keyVaultName"
+
+      # API Application Insights
+      $apiAppInsightsName = "ai-$(productName)-$(environment)"
+      echo "##vso[task.setvariable variable=apiAppInsightsName]$apiAppInsightsName"
+
+      # API App Service
+      $apiWebAppName = "app-$(productName)-$(environment)"
+      echo "##vso[task.setvariable variable=apiWebAppName]$apiWebAppName"
+
+      # Static Web
+      $frontendName = "st$(productName)fe$(environment)"
+      echo "##vso[task.setvariable variable=frontendName]$frontendName"
+
+      # SQL Server
+      $sqlServerName = "sqlserver-$(productName)-$(environment)"
+      echo "##vso[task.setvariable variable=sqlServerName]$sqlServerName"
+
+      # SQL Database
+      $sqlDatabaseName = "sqldb-$(productName)-$(environment)"
+      echo "##vso[task.setvariable variable=sqlDatabaseName]$sqlDatabaseName"
+
+      # Front Door
+      $frontDoorName = "fd-$(productName)-$(environment)"
+      echo "##vso[task.setvariable variable=frontDoorName]$frontDoorName"
+      #########################

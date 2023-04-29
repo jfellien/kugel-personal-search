@@ -1,0 +1,467 @@
+# Any banch triggers the pipeline but in different stages
+trigger:
+  branches:
+    include:
+    - dev
+    - stage
+    - main
+  paths:
+    include:
+    - build/staff-search/*
+    - src/*
+
+# If a Pull Request has been created a build will be triggered
+pr:
+  branches:
+    include:
+    - dev
+    - stage
+    - main
+  paths:
+    include:
+    - build/staff-search/*
+    - src/*
+
+# Varibles for any stage
+variables:
+  - group: azure-service-connections
+  - group: build-variables
+
+  - name: pipelineNamingsFilesFolder
+    value: './build'
+  - name: bicepFolder
+    value: './build/.bicep'
+  - name: bicepPipelineFilesFolder
+    value: staff-search
+  - name: bicepSolutionFolder
+    value: './build/$(bicepPipelineFilesFolder)'
+  - name: bicepSolutionFile
+    value: 'main.bicep'
+  - name: resourceArtifactDropName
+    value: bicep_solution
+  
+  - name: ASPNETCORE_ENVIRONMENT # We need this setting to control the migration script creation.
+    value: Deployment            # Deployment disables the usage of a connection string during generation 
+  - name: dotnet_version
+    value: 6.x
+  - name: staffSearchSolutionPath
+    value: src/backend/Kugel.StaffSearch.sln
+  - name: staffSearchApiProjectFile
+    value: src/backend/Kugel.StaffSearch.Api/Kugel.StaffSearch.Api.csproj
+  - name: staffSearchApiTestProjectFile
+    value: tests/Kugel.StaffSearch.Api.Tests/Kugel.StaffSearch.Api.Tests.csproj
+  - name: staffSearchFrontendProjectFolder
+    value: src/frontend
+  - name: staffSearchFrontendPublishFolder
+    value: dist/kugel-staff-search
+  - name: publishArtifactApiName
+    value: staff-search-api
+  - name: publishArtifactMigrationName
+    value: migration
+  - name: publishArtifactFrontendName
+    value: frontend
+  - name: dotnetPublishApiFolder
+    value: api
+  - name: buildConfiguration
+    value: Release
+
+  - name: isPullRequest
+    value: $[eq(variables['Build.Reason'], 'PullRequest')]
+  - name: isDevelopment
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/dev')]
+  - name: isStage
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/stage')]
+  - name: isProduction
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+
+stages:
+  # Build Bicep stage is just to test and validate the bicep. The result will not use in the stages. 
+  - stage: BuildInfrastructure
+    displayName: Build IaC Script
+    dependsOn: [] # can run in parallel
+    
+    pool: 
+      vmImage:  'ubuntu-latest'
+
+    jobs:
+    - job: BuildTemplate
+      displayName: Build Template
+      steps:
+        - checkout: self
+
+        - script: az bicep build --file '$(bicepSolutionFolder)/$(bicepSolutionFile)'
+          displayName: Build Bicep
+
+        ## Copy Bicep Folder
+        - task: CopyFiles@2
+          displayName: 'Copy Bicep Files'
+          inputs:
+            SourceFolder: '$(bicepFolder)'
+            Contents: '**'
+            TargetFolder: $(Build.ArtifactStagingDirectory)/.bicep
+        
+        ## Copy Pipeline Files
+        - task: CopyFiles@2
+          displayName: 'Copy Pipeline Files'
+          inputs:
+            SourceFolder: '$(bicepSolutionFolder)'
+            Contents: '**'
+            TargetFolder: $(Build.ArtifactStagingDirectory)/$(bicepPipelineFilesFolder)
+
+        ## Copy Pipeline Namings Files
+        - task: CopyFiles@2
+          displayName: 'Copy Pipeline Namings Files'
+          inputs:
+            SourceFolder: '$(pipelineNamingsFilesFolder)'
+            Contents: '*.json'
+            TargetFolder: $(Build.ArtifactStagingDirectory)
+        
+        ## Publish Bicep Folder
+        - task: PublishBuildArtifacts@1
+          displayName: Upload Bicep Artifacts
+          inputs:
+            PathtoPublish: $(Build.ArtifactStagingDirectory)
+            ArtifactName: $(resourceArtifactDropName)
+            publishLocation: Container
+
+  # This stage builds the Staff Search and copies the result to Pipeline Artifact Storage
+  - stage: BuildStaffSearchServices
+    displayName: Build and Test Staff SearchServices
+    dependsOn: [] # can run in parallel
+
+    pool: 
+      vmImage: 'ubuntu-latest'
+
+    jobs:
+    - job: BuildApiService
+      displayName: Build Staff Search Api Service
+
+      steps:
+        - checkout: self
+          clean: "true"
+          fetchDepth: "0"
+        
+        # SDK Setup
+        - task: UseDotNet@2
+          displayName: Install .NET Core SDK
+          inputs:
+            packageType: 'sdk'
+            includePreviewVersions: true
+            version: $(dotnet_version)
+            installationPath: $(Agent.ToolsDirectory)/dotnet
+
+        # Nuget Restore
+        - script: dotnet restore $(staffSearchSolutionPath) --configfile src/NuGet.config
+          displayName: .Net Package Restore
+      
+        # Restore dotNet Tools
+        - script: dotnet tool restore 
+          displayName: .Net Tool Restore
+
+        # Build Staff Search Api Project
+        - script: dotnet build $(staffSearchApiProjectFile) --configuration $(BuildConfiguration)
+          displayName: Build Staff Search Api Project
+
+        # Run Tests
+        - script: dotnet test $(staffSearchApiTestProjectFile) --configuration $(BuildConfiguration) --no-restore
+          displayName: Run Staff Search API Tests
+
+        # Install EF Tools
+        - script: dotnet tool install --global dotnet-ef
+          displayName: Install EF Tool for next step
+
+        # Generate Migration Script
+        - script: dotnet ef migrations script --idempotent --project $(staffSearchApiProjectFile) --output $(Build.ArtifactStagingDirectory)/migration.sql
+          displayName: Generate SQL DB Migration Script
+        
+        ##########################
+        # Dotnet Publish
+        ##########################
+
+        # Dotnet Publish API
+        - script: dotnet publish $(staffSearchApiProjectFile) --configuration $(BuildConfiguration) -r linux-x64 --output $(Build.ArtifactStagingDirectory)/$(dotnetPublishApiFolder)
+          displayName: Publish Staff Search API
+
+        ###########################
+        # Publish Artifacts
+        ###########################
+
+        # Publish Staff Search API Artifacts
+        - task: PublishBuildArtifacts@1
+          displayName: Publish Staff Search Api Build Artifacts
+          inputs:
+            PathtoPublish: $(Build.ArtifactStagingDirectory)/$(dotnetPublishApiFolder)
+            ArtifactName: $(publishArtifactApiName)
+        
+        # Publish Migration Script
+        - task: PublishBuildArtifacts@1
+          displayName: Publish SQL Migration Script
+          inputs:
+            PathtoPublish: $(Build.ArtifactStagingDirectory)/migration.sql
+            ArtifactName: $(publishArtifactMigrationName)
+
+  # This stage builds the frontend of the Staff Search and copies the results to Pipeline Artifact Storage
+  - stage: BuildFrontend
+    displayName: Build and test the Frontend of Staff Search
+    dependsOn: [] # can run in parallel
+
+    pool: 
+      vmImage: 'ubuntu-latest'
+
+    jobs:
+    - job: BuildFrontend
+      displayName: Build and test the Frontend
+
+      steps:
+        ####################################
+        # Setup Angular environment
+        ####################################
+
+        # Install Node
+        - task: NodeTool@0
+          displayName: Use Node 16
+          inputs:
+            versionSpec: '16.x'
+
+        # Install Angular
+        - task: Npm@1
+          displayName: Install Angular CLI
+          inputs:
+            workingDir: $(staffSearchFrontendProjectFolder)
+            command: custom
+            customCommand: install @angular/cli
+
+        # Install Project Dependencies
+        - task: Npm@1
+          displayName: Install Project Dependencies
+          inputs:
+            workingDir: $(staffSearchFrontendProjectFolder)
+            command: install
+
+        # Run Lint
+        - task: Npm@1
+          displayName: Lint
+          inputs:
+            workingDir: $(staffSearchFrontendProjectFolder)
+            command: custom
+            customCommand: run lint-pipeline
+
+        ####################################
+        # Build for the right environment
+        ####################################
+
+        # Build for Dev
+        - task: Npm@1
+          displayName: Build for Dev Environment
+          condition: eq(variables.isDevelopment, 'true')
+          inputs:
+            workingDir: $(staffSearchFrontendProjectFolder)
+            command: custom
+            customCommand: run build-dev
+        
+        # Build for Stage
+        - task: Npm@1
+          displayName: Build for Stage Environment
+          condition: eq(variables.isStage, 'true')
+          inputs:
+            workingDir: $(staffSearchFrontendProjectFolder)
+            command: custom
+            customCommand: run build-stage
+
+        # Build for Prod
+        - task: Npm@1
+          displayName: Build for Prod Environment
+          condition: eq(variables.isProduction, 'true')
+          inputs:
+            workingDir: $(staffSearchFrontendProjectFolder)
+            command: custom
+            customCommand: run build-prod
+        ####################################
+
+        ####################################
+        # Run Tests
+        ####################################
+        - task: Npm@1
+          displayName: Run Tests
+          inputs:
+            workingDir: $(staffSearchFrontendProjectFolder)
+            command: custom
+            customCommand: run test:headless
+
+        ####################################
+        # Publish build results
+        ####################################
+        
+        # Publish Build Artifacts
+        - task: PublishPipelineArtifact@1
+          displayName: Publish Build Artifacts
+          condition: eq(variables.isPullRequest, 'false')
+          inputs:
+            targetPath: $(staffSearchFrontendProjectFolder)/$(staffSearchFrontendPublishFolder)
+            artifact: $(publishArtifactFrontendName)
+            publishLocation: 'pipeline'
+
+  #################################################################################################
+  # Dev Deployment
+  #################################################################################################
+  - stage: Development
+    displayName: Dev Deployment
+    dependsOn: 
+      - BuildInfrastructure
+      - BuildStaffSearchServices
+      - BuildFrontend
+
+    variables:
+      - group: staff-search-dev-variables
+      - group: staff-search-dev-sqlconnectionstring
+      - name: resourceGroupName
+      - name: apiWebAppName
+      - name: apiAppInsightsName
+      - name: frontendName
+      - name: keyVaultName
+      - name: frontDoorName
+      - name: sqlServerName
+      - name: sqlDatabaseName
+
+    # Run only when depended stage was succeded, 
+    # its not triggered by a pull request 
+    # and it's triggered by a specific branch
+    condition: and(succeeded(), eq(variables.isPullRequest, 'false'), eq(variables.isDevelopment, 'true'))
+
+    jobs:
+    - deployment: DeployResources
+      displayName: Deploy Ressources
+      environment: development
+
+      pool:
+        vmImage: 'ubuntu-latest'
+
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+                - download: current
+                  displayName: 'Download pipeline artifacts'
+
+                - template: ../resource-names.yml
+
+                ### WHAT-IF Resources Deployment
+                - task: AzureCLI@2
+                  displayName: Run What-If Deployment for Resources
+                  inputs:
+                    azureSubscription: '$(ServiceConnectionDev)'
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      az deployment sub what-if \
+                        --template-file $(Pipeline.Workspace)/$(resourceArtifactDropName)/$(bicepPipelineFilesFolder)/$(bicepSolutionFile) \
+                        --location $(location) \
+                        --parameters \
+                                    location=$(location) \
+                                    resourceGroupName=$(resourceGroupName) \
+                                    apiWebAppName=$(apiWebAppName) \
+                                    apiAppInsightsName=$(apiAppInsightsName) \
+                                    frontendName=$(frontendName) \
+                                    keyVaultName=$(keyVaultName) \
+                                    frontDoorName=$(frontDoorName) \
+                                    sqlServerName=$(sqlServerName) \
+                                    sqlDatabaseName=$(sqlDatabaseName) \
+                                    sqlAdministratorUserName=$(SQLuser) \
+                                    sqlAdministratorPassword=$(SQLpassword) \
+                                    publicDomainName=$(publicDomainName)
+
+                ### Do the real Resources Deployment
+                - task: AzureCLI@2
+                  displayName: Run Deployment for Resources
+                  inputs:
+                    azureSubscription: '$(ServiceConnectionDev)'
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      az deployment sub create \
+                        --template-file $(Pipeline.Workspace)/$(resourceArtifactDropName)/$(bicepPipelineFilesFolder)/$(bicepSolutionFile) \
+                        --location $(location) \
+                        --parameters \
+                                    location=$(location) \
+                                    resourceGroupName=$(resourceGroupName) \
+                                    apiWebAppName=$(apiWebAppName) \
+                                    apiAppInsightsName=$(apiAppInsightsName) \
+                                    frontendName=$(frontendName) \
+                                    keyVaultName=$(keyVaultName) \
+                                    frontDoorName=$(frontDoorName) \
+                                    sqlServerName=$(sqlServerName) \
+                                    sqlDatabaseName=$(sqlDatabaseName) \
+                                    sqlAdministratorUserName=$(SQLuser) \
+                                    sqlAdministratorPassword=$(SQLpassword) \
+                                    publicDomainName=$(publicDomainName)
+
+    - deployment: DeployServices
+      displayName: Deploy Staff Search Services
+      environment: development
+      dependsOn: 
+        - DeployResources
+
+      pool:
+        vmImage: 'windows-latest'
+
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+                - download: current
+                  displayName: 'Download pipeline artifacts'
+
+                - template: ../resource-names.yml
+
+                ### First we change the Database if it is neccesary
+                - task: SqlAzureDacpacDeployment@1
+                  displayName: 'Update Database'
+                  inputs:
+                    azureSubscription: '$(ServiceConnectionDev)'
+                    AuthenticationType: 'connectionString'
+                    ConnectionString: '$(sqlserver-dev-ConnectionString)'
+                    deployType: 'SqlTask'
+                    SqlFile: $(Pipeline.Workspace)/$(publishArtifactMigrationName)/migration.sql
+                    
+                ### Deploy Staff Search Api
+                - task: AzureWebApp@1
+                  displayName: Deploy Staff Search API
+
+                  inputs:
+                    azureSubscription: $(ServiceConnectionDev)
+                    appType: webAppLinux
+                    appName: $(apiWebAppName)
+                    package: $(Pipeline.Workspace)/$(publishArtifactApiName)
+
+    - deployment: DeployFrontend
+      displayName: Deploy Frontend
+      environment: development
+
+      pool:
+        vmImage: 'ubuntu-latest'
+
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+                - download: current
+                  displayName: 'Download pipeline artifacts'
+
+                - template: ../resource-names.yml
+
+                - task: AzureCLI@2
+                  displayName: Clear Existing App In Storage
+                  inputs:
+                    azureSubscription: $(ServiceConnectionDev)
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: az storage blob delete-batch --account-name $(frontendName) --source "\$web"
+
+                - task: AzureCLI@2
+                  displayName: Upload App To Storage
+                  inputs:
+                    azureSubscription: $(ServiceConnectionDev)
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      az storage blob upload-batch --account-name $(frontendName) --destination "\$web" --source $(Pipeline.Workspace)/$(publishArtifactFrontendName)
