@@ -1,4 +1,4 @@
-import { Person } from './person.model';
+import { StaffMember } from './staff-member.model';
 
 export interface SearchResult {
     id: string

@@ -10,8 +10,8 @@ export const environment = {
   redirectUri: 'http://localhost:4200',
   endpoint: 'http://localhost:5229',
   pathSearch: '/search',
-  pathPerson: '/person',
-  endpointScopes: [ 'https://devcrowdb2c.onmicrosoft.com/67ed75a2-3ff2-46da-8dae-ebe4f34f8901/all' ]
+  pathStaffMembers: '/staff-members',
+  endpointScopes: [ 'https://devCrowdB2C.onmicrosoft.com/ab2d9786-4e2c-43e8-baf9-ff468ec0cb26/all' ]
 };
 
 /*

@@ -1,6 +1,6 @@
-export interface Person {
+export interface StaffMember {
     id: string;
     personalId: string;
-    firstNamew: string;
+    firstName: string;
     lastName: string;
 }

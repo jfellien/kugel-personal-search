@@ -64,7 +64,7 @@ import { StaffMemberComponent } from './staff-member/staff-member.component';
         interactionType: InteractionType.Redirect,
         protectedResourceMap: new Map([
           [ `${environment.endpoint}${environment.pathSearch}`, environment.endpointScopes ],
-          [ `${environment.endpoint}${environment.pathPerson}`, environment.endpointScopes ],
+          [ `${environment.endpoint}${environment.pathStaffMembers}`, environment.endpointScopes ],
         ])
       }
     )
