@@ -8,13 +8,16 @@
   <app-error [message]="errorMessage" *ngIf="errorMessage && !isLoading"></app-error>
 
   <mat-card *ngIf="!errorMessage && !isLoading && staffMember" class="mat-elevation-z0">
-    <mat-card-subtitle>{{ staffMember.personalId }}</mat-card-subtitle>
     <mat-card-title>
-      <span>{{ staffMember.firstName }}</span>
-      <span>{{ staffMember.lastName }}</span>
+      <span>{{ staffMember.firstName }} {{ staffMember.lastName }}</span>
     </mat-card-title>
+
+    <mat-card-subtitle>
+      {{ staffMember.personalId }}
+    </mat-card-subtitle>
+
     <mat-card-content>    
-  
+      Wonderfull, it works
     </mat-card-content>
   </mat-card>
   
