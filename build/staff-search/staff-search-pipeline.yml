@@ -436,6 +436,8 @@ stages:
     - deployment: DeployFrontend
       displayName: Deploy Frontend
       environment: development
+      dependsOn:
+        - DeployResources
 
       pool:
         vmImage: 'ubuntu-latest'
