@@ -25,7 +25,7 @@ pr:
 # Varibles for any stage
 variables:
   - group: azure-service-connections
-  - group: build-variables
+  - group: common-build-variables
 
   - name: pipelineNamingsFilesFolder
     value: './build'
@@ -313,7 +313,7 @@ stages:
 
     variables:
       - group: staff-search-dev-variables
-      - group: staff-search-dev-sqlconnectionstring
+      
       - name: resourceGroupName
       - name: apiWebAppName
       - name: apiAppInsightsName
