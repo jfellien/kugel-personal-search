@@ -122,7 +122,6 @@ stages:
           inputs:
             PathtoPublish: $(Build.ArtifactStagingDirectory)
             ArtifactName: $(publishArtifactResourcesName)
-            publishLocation: Container
 
   # This stage builds the Staff Search and copies the result to Pipeline Artifact Storage
   - stage: BuildStaffSearchServices
@@ -299,7 +298,6 @@ stages:
           inputs:
             targetPath: $(staffSearchFrontendProjectFolder)/$(staffSearchFrontendPublishFolder)
             artifact: $(publishArtifactFrontendName)
-            publishLocation: 'pipeline'
 
   #################################################################################################
   # Dev Deployment
