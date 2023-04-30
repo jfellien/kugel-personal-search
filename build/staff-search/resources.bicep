@@ -149,7 +149,7 @@ module apiService '../.bicep/app-service.bicep' = {
     ]
     additionalAppSettings: [
       {
-        name: 'SqlConnection'
+        name: 'SqlServerConnection'
         value: '@Microsoft.KeyVault(SecretUri=${sqlServerConnectionSecret.outputs.secretUri})'
       }
       {
