@@ -117,11 +117,9 @@ stages:
             TargetFolder: $(Build.ArtifactStagingDirectory)
         
         ## Publish Bicep Folder
-        - task: PublishBuildArtifacts@1
+        - publish: $(Build.ArtifactStagingDirectory)
           displayName: Upload Bicep Artifacts
-          inputs:
-            PathtoPublish: $(Build.ArtifactStagingDirectory)
-            ArtifactName: $(publishArtifactResourcesName)
+          artifact: $(publishArtifactResourcesName)
 
   # This stage builds the Staff Search and copies the result to Pipeline Artifact Storage
   - stage: BuildStaffSearchServices
@@ -186,18 +184,14 @@ stages:
         ###########################
 
         # Publish Staff Search API Artifacts
-        - task: PublishBuildArtifacts@1
+        - publish: $(Build.ArtifactStagingDirectory)/$(dotnetPublishApiFolder)
           displayName: Publish Staff Search Api Build Artifacts
-          inputs:
-            PathtoPublish: $(Build.ArtifactStagingDirectory)/$(dotnetPublishApiFolder)
-            ArtifactName: $(publishArtifactApiName)
+          artifact: $(publishArtifactApiName)
         
         # Publish Migration Script
-        - task: PublishBuildArtifacts@1
+        - publish: $(Build.ArtifactStagingDirectory)/migration.sql
           displayName: Publish SQL Migration Script
-          inputs:
-            PathtoPublish: $(Build.ArtifactStagingDirectory)/migration.sql
-            ArtifactName: $(publishArtifactMigrationName)
+          artifact: $(publishArtifactMigrationName)
 
   # This stage builds the frontend of the Staff Search and copies the results to Pipeline Artifact Storage
   - stage: BuildFrontend
@@ -292,12 +286,10 @@ stages:
         ####################################
         
         # Publish Build Artifacts
-        - task: PublishPipelineArtifact@1
+        - publish: $(staffSearchFrontendProjectFolder)/$(staffSearchFrontendPublishFolder)
           displayName: Publish Build Artifacts
           condition: eq(variables.isPullRequest, 'false')
-          inputs:
-            targetPath: $(staffSearchFrontendProjectFolder)/$(staffSearchFrontendPublishFolder)
-            artifact: $(publishArtifactFrontendName)
+          artifact: $(publishArtifactFrontendName)
 
   #################################################################################################
   # Dev Deployment
