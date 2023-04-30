@@ -313,7 +313,8 @@ stages:
 
     variables:
       - group: staff-search-dev-variables
-
+      - group: sql-connection-string-dev
+      
       - name: resourceGroupName
       - name: apiWebAppName
       - name: apiAppInsightsName
@@ -419,7 +420,7 @@ stages:
                   inputs:
                     azureSubscription: '$(ServiceConnectionDev)'
                     AuthenticationType: 'connectionString'
-                    ConnectionString: '$(sqlserver-dev-ConnectionString)'
+                    ConnectionString: '$(sqlserver-staffsearch-dev-ConnectionString)'
                     deployType: 'SqlTask'
                     SqlFile: $(Pipeline.Workspace)/$(publishArtifactMigrationName)/migration.sql
                     
