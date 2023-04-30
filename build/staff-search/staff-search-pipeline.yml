@@ -330,8 +330,8 @@ stages:
     condition: and(succeeded(), eq(variables.isPullRequest, 'false'), eq(variables.isDevelopment, 'true'))
 
     jobs:
-    - deployment: DeployResources
-      displayName: Deploy Ressources
+    - deployment: SetUpInfrastructure
+      displayName: Set up Infrastructure
       environment: development
 
       pool:
@@ -401,7 +401,7 @@ stages:
       displayName: Deploy Staff Search Api
       environment: development
       dependsOn: 
-        - DeployResources
+        - SetUpInfrastructure
 
       pool:
         vmImage: 'ubuntu-latest'
@@ -430,7 +430,7 @@ stages:
       displayName: Run DB Migration
       environment: development
       dependsOn: 
-        - DeployResources
+        - SetUpInfrastructure
         - DeployApi
 
       pool:
@@ -458,7 +458,7 @@ stages:
       displayName: Deploy Frontend
       environment: development
       dependsOn:
-        - DeployResources
+        - SetUpInfrastructure
         - DeployApi
         - MigrateDbChanges
 
