@@ -397,11 +397,39 @@ stages:
                                     sqlAdministratorPassword='$(SQLpassword)' \
                                     publicDomainName=$(publicDomainName)
 
+    - deployment: ApplyDbChanges
+      displayName: Apply DB Changes
+      environment: development
+      dependsOn: 
+        - SetUpInfrastructure
+
+      pool:
+        vmImage: 'windows-latest'
+
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+                - download: current
+                  displayName: 'Download pipeline artifacts (Migration)'
+                  artifact: $(publishArtifactMigrationName)
+
+                ### First we change the Database if it is neccesary
+                - task: SqlAzureDacpacDeployment@1
+                  displayName: 'Update Database'
+                  inputs:
+                    azureSubscription: '$(ServiceConnectionDev)'
+                    AuthenticationType: 'connectionString'
+                    ConnectionString: '$(sqlserver-staffsearch-dev-ConnectionString)'
+                    deployType: 'SqlTask'
+                    SqlFile: $(Pipeline.Workspace)/$(publishArtifactMigrationName)/migration.sql
+
     - deployment: DeployApi
       displayName: Deploy Staff Search Api
       environment: development
       dependsOn: 
         - SetUpInfrastructure
+        - ApplyDbChanges
 
       pool:
         vmImage: 'ubuntu-latest'
@@ -426,41 +454,13 @@ stages:
                     appName: $(apiWebAppName)
                     package: $(Pipeline.Workspace)/$(publishArtifactApiName)
 
-    - deployment: MigrateDbChanges
-      displayName: Run DB Migration
-      environment: development
-      dependsOn: 
-        - SetUpInfrastructure
-        - DeployApi
-
-      pool:
-        vmImage: 'windows-latest'
-
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-                - download: current
-                  displayName: 'Download pipeline artifacts (Migration)'
-                  artifact: $(publishArtifactMigrationName)
-
-                ### First we change the Database if it is neccesary
-                - task: SqlAzureDacpacDeployment@1
-                  displayName: 'Update Database'
-                  inputs:
-                    azureSubscription: '$(ServiceConnectionDev)'
-                    AuthenticationType: 'connectionString'
-                    ConnectionString: '$(sqlserver-staffsearch-dev-ConnectionString)'
-                    deployType: 'SqlTask'
-                    SqlFile: $(Pipeline.Workspace)/$(publishArtifactMigrationName)/migration.sql
-
     - deployment: DeployFrontend
       displayName: Deploy Frontend
       environment: development
       dependsOn:
         - SetUpInfrastructure
+        - ApplyDbChanges
         - DeployApi
-        - MigrateDbChanges
 
       pool:
         vmImage: 'ubuntu-latest'
