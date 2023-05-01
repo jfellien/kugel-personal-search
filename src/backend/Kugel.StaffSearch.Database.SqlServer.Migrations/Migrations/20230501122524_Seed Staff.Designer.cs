@@ -4,6 +4,7 @@ using Kugel.StaffSearch.Database.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kugel.StaffSearch.Database.SqlServer.Migrations.Migrations
 {
     [DbContext(typeof(KugelStaffSearchContext))]
-    partial class KugelPersonalSearchContextModelSnapshot : ModelSnapshot
+    [Migration("20230501122524_Seed Staff")]
+    partial class SeedStaff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
