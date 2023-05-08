@@ -303,16 +303,6 @@ stages:
 
     variables:
       - group: staff-search-dev-variables
-      - group: sql-connection-string-dev
-
-      - name: resourceGroupName
-      - name: apiWebAppName
-      - name: apiAppInsightsName
-      - name: frontendName
-      - name: keyVaultName
-      - name: frontDoorName
-      - name: sqlServerName
-      - name: sqlDatabaseName
 
     # Run only when depended stage was succeded, 
     # its not triggered by a pull request 
@@ -395,6 +385,9 @@ stages:
 
       pool:
         vmImage: 'windows-latest'
+      
+      variables:
+        - group: sql-connection-string-dev
 
       strategy:
         runOnce:
@@ -423,6 +416,16 @@ stages:
 
       pool:
         vmImage: 'ubuntu-latest'
+
+      variables:
+        - name: resourceGroupName
+        - name: apiWebAppName
+        - name: apiAppInsightsName
+        - name: frontendName
+        - name: keyVaultName
+        - name: frontDoorName
+        - name: sqlServerName
+        - name: sqlDatabaseName
 
       strategy:
         runOnce:
@@ -454,6 +457,9 @@ stages:
 
       pool:
         vmImage: 'ubuntu-latest'
+      
+      variables:
+        - name: frontendName
 
       strategy:
         runOnce:
