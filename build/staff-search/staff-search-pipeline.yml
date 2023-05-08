@@ -36,7 +36,7 @@ variables:
   - name: bicepSolutionFolder
     value: './build/$(bicepPipelineFilesFolder)'
   - name: bicepSolutionFile
-    value: 'main.bicep'
+    value: 'staff-search-solution.bicep'
   - name: publishArtifactResourcesName
     value: bicep_solution
   

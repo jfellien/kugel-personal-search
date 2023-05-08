@@ -65,6 +65,9 @@ module sqlServerDatabase '../.bicep/sql-db.bicep' = {
       sqlServerName: sqlServer.outputs.name
       sqlDbName: sqlDatabaseName
   }
+  dependsOn:[
+    sqlServer
+  ]
 }
 
 module sqlServerConnectionSecret '../.bicep/add-keyvault-secret.bicep' = {
@@ -74,6 +77,11 @@ module sqlServerConnectionSecret '../.bicep/add-keyvault-secret.bicep' = {
     secretName: sqlServerConnectionStringSecretName
     secretValue: 'Server=tcp:${sqlServer.outputs.name}${environment().suffixes.sqlServerHostname},1433;Initial Catalog=${sqlServerDatabase.outputs.name};Persist Security Info=False;User ID=${sqlAdministratorUserName};Password=${sqlAdministratorPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
   }
+  dependsOn:[
+    keyVault
+    sqlServer
+    sqlServerDatabase
+  ]
 }
 
 module deploymentUser '../.bicep/user-identity.bicep' = {
@@ -90,6 +98,9 @@ module deploymentUserAsContributor '../.bicep/role-assignment.bicep' = {
     principalId: deploymentUser.outputs.principalId
     roleDefinitionId: roleDefinitions.contributor
   }
+  dependsOn:[
+    deploymentUser
+  ]
 }
 
 module frontend '../.bicep/staticweb.bicep' = {
@@ -117,6 +128,10 @@ module frontendRoute '../.bicep/frontdoor-route.bicep' = {
     isCachingEnabled: true
     isCompressionEnabled: false
   }
+  dependsOn:[
+    frontDoor
+    frontend
+  ]
 }
 
 module apiAppInsights '../.bicep/application-insights.bicep' = {
@@ -159,6 +174,11 @@ module apiService '../.bicep/app-service.bicep' = {
     ]
     allowedOrigins: (isDevEnvironment ? ['http://localhost:4200'] : [])
   }
+  dependsOn:[
+    apiAppInsights
+    frontDoor
+    sqlServerConnectionSecret
+  ]
 }
 
 module apiRoute '../.bicep/frontdoor-route.bicep' = {
@@ -176,6 +196,7 @@ module apiRoute '../.bicep/frontdoor-route.bicep' = {
   }
   dependsOn:[
     frontDoor
+    apiService
   ]
 }
 
@@ -185,4 +206,8 @@ module assignApiServiceToKeyVault '../.bicep/keyvault-principal-assignment.bicep
     keyVaultName:keyVault.outputs.keyVaultName
     principalId: apiService.outputs.principalId
   }
+  dependsOn:[
+    keyVault
+    apiService
+  ]
 }
