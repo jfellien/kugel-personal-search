@@ -33,7 +33,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
 }
 
-module services 'resources.bicep' = {
+module services 'staff-search-resources.bicep' = {
   name: 'staff-search-resources'
   scope: resourceGroup
   params: {
